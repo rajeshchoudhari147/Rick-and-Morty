@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { API_HUMAN } from "../api/rickandmortyapi";
 import Character from "../components/Character";
+import Loading from "../components/Loading";
 
 function CharacterList() {
   let [characters, setCharacters] = useState(null);
@@ -20,6 +21,10 @@ function CharacterList() {
       console.log(e);
     }
   }, []);
+
+  if (!characters) {
+    return <Loading />;
+  }
 
   return (
     <div className="container">
