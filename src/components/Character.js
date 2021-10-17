@@ -1,10 +1,12 @@
 import React from "react";
+import { useHistory, useRouteMatch } from "react-router-dom";
 
 function Character({ character }) {
   let { id, name, image } = character;
+  let history = useHistory();
 
   return (
-    <div className="card black character">
+    <div className="card black character" onClick={() => history.push(`${id}`)}>
       <div>
         <img src={image} alt={name} />
       </div>
