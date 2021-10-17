@@ -6,6 +6,7 @@ import Loading from "../components/Loading";
 
 function CharacterList() {
   let [characters, setCharacters] = useState(null);
+  let [searchTerm, setSearchTerm] = useState(null);
 
   useEffect(() => {
     try {
@@ -30,14 +31,32 @@ function CharacterList() {
     <div className="container">
       <h2>Rick and Morty Characters</h2>
       <hr />
+      <input
+        type="text"
+        placeholder="Search by character name..."
+        onChange={(event) => {
+          setSearchTerm(event.target.value);
+        }}
+      />
+      <hr />
       <div className="row">
-        {characters.map((character) => {
-          return (
-            <div className="col s12 m4 l3" key={character.id}>
-              <Character key={character.id} character={character} />
-            </div>
-          );
-        })}
+        {characters
+          .filter((value) => {
+            if (searchTerm == null) {
+              return value;
+            } else if (
+              value.name.toLowerCase().includes(searchTerm.toLowerCase())
+            ) {
+              return value;
+            }
+          })
+          .map((character) => {
+            return (
+              <div className="col s12 m4 l3" key={character.id}>
+                <Character key={character.id} character={character} />
+              </div>
+            );
+          })}
       </div>
     </div>
   );
