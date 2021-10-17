@@ -28,7 +28,7 @@ function CharacterList() {
 
   return (
     <div className="container">
-      <h2>Characters</h2>
+      <h2>Rick and Morty Characters</h2>
       <hr />
       <div className="row">
         {characters.map((character) => {
