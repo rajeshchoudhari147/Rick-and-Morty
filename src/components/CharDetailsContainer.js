@@ -1,9 +1,19 @@
 import React from "react";
-import { Card, CardMedia, Typography, Container, Grid } from "@mui/material";
+import { useHistory } from "react-router-dom";
+import {
+  Card,
+  CardMedia,
+  Typography,
+  Container,
+  Grid,
+  Button,
+} from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import useStyles from "../styles";
 
 function CharDetailsContainer({ character }) {
   const classes = useStyles();
+  let history = useHistory();
   let { image, name, status, origin, location, created, species } = character;
 
   function getDate(createdDate) {
@@ -77,6 +87,17 @@ function CharDetailsContainer({ character }) {
           </Grid>
         </Grid>
       </Container>
+      <Grid container className={classes.backButton}>
+        <Button
+          onClick={() => {
+            history.goBack();
+          }}
+          variant="contained"
+          startIcon={<ArrowBackIcon />}
+        >
+          Back
+        </Button>
+      </Grid>
     </div>
   );
 }
