@@ -68,6 +68,23 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: "5px",
     fontWeight: "bold",
   },
+  pagination: {
+    display: "flex",
+    justifyContent: "space-around",
+    backgroundColor: "whitesmoke",
+    paddingTop: "20px",
+    paddingBottom: "20px",
+    borderRadius: "15px",
+    marginTop: "20px",
+    marginBottom: "20px",
+  },
+  paginationButton: {
+    fontWeight: "bold",
+    borderRadius: "20px",
+  },
+  paginationBtn: {
+    fontWeight: "bold",
+  },
 }));
 
 export default useStyles;
