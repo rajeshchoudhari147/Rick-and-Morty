@@ -1,31 +1,56 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { API_HUMAN } from "../api/rickandmortyapi";
+import { API_HUMAN, API_HUMAN_PAGE } from "../api/rickandmortyapi";
 import Character from "../components/Character";
 import Loading from "../components/Loading";
+import PaginationComponent from "../components/PaginationComponent";
 import { Typography, TextField } from "@material-ui/core";
 
 function CharacterList() {
   let [characters, setCharacters] = useState(null);
   let [searchTerm, setSearchTerm] = useState(null);
+  let [loading, setLoading] = useState(true);
+  let [currentPageUrl, setCurrentPageUrl] = useState(API_HUMAN);
+  let [nextPageUrl, setNextPageUrl] = useState();
+  let [prevPageUrl, setPrevPageUrl] = useState();
+  let [pages, setPages] = useState();
 
   useEffect(() => {
     try {
-      fetch(API_HUMAN)
-        .then((response) => response.json())
-        .then(({ results }) => {
-          if (results && Array.isArray(results)) {
-            setCharacters(results);
-          }
-        })
-        .catch((error) => console.log(error));
+      const url = currentPageUrl;
+      setLoading(true);
+
+      const fetchData = async () => {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data.results && Array.isArray(data.results)) {
+          setCharacters(data.results);
+          setLoading(false);
+          setNextPageUrl(data.info.next);
+          setPrevPageUrl(data.info.prev);
+          setPages(data.info.pages);
+        }
+      };
+      fetchData();
     } catch (e) {
       console.log(e);
     }
-  }, []);
+  }, [currentPageUrl]);
 
-  if (!characters) {
+  if (loading) {
     return <Loading />;
+  }
+
+  function nextPage() {
+    setCurrentPageUrl(nextPageUrl);
+  }
+
+  function prevPage() {
+    setCurrentPageUrl(prevPageUrl);
+  }
+
+  function goToPage(num) {
+    setCurrentPageUrl(`${API_HUMAN_PAGE}${num}`);
   }
 
   return (
@@ -41,6 +66,14 @@ function CharacterList() {
           setSearchTerm(event.target.value);
         }}
       />
+      <div>
+        <PaginationComponent
+          nextPage={nextPageUrl ? nextPage : null}
+          prevPage={prevPageUrl ? prevPage : null}
+          goToPage={goToPage}
+          pages={pages}
+        />
+      </div>
       <div className="row">
         {characters
           .filter((value) => {
