@@ -1,8 +1,10 @@
 import React from "react";
+import { Card, CardMedia, Typography, Container, Grid } from "@mui/material";
+import useStyles from "../styles";
 
 function CharDetailsContainer({ character }) {
-  let { id, image, name, status, origin, location, created, species } =
-    character;
+  const classes = useStyles();
+  let { image, name, status, origin, location, created, species } = character;
 
   function getDate(createdDate) {
     const date = new Date(createdDate);
@@ -13,50 +15,68 @@ function CharDetailsContainer({ character }) {
     return displayDate;
   }
 
-  return (
-    <div className="container">
-      <h2>
-        {id}: {name}
-      </h2>
-      <hr />
-      <div className="charDetails">
-        <div>
-          <img src={image} alt={name} />
-        </div>
-        <div>
-          <ul className="collection">
-            <li className="collection-item">
-              <strong>Species: </strong>
-              {species}
-            </li>
-          </ul>
-          <ul className="collection">
-            <li className="collection-item">
-              <strong>Status: </strong>
-              {status}
-            </li>
-          </ul>
-          <ul className="collection">
-            <li className="collection-item">
-              <strong>Origin: </strong>
-              {origin.name}
-            </li>
-          </ul>
+  function getStatusColor(status) {
+    if (status === "Alive") return "#7fff00";
+    else return "#ff0800";
+  }
 
-          <ul className="collection">
-            <li className="collection-item">
-              <strong>Location: </strong>
+  function setHumanEmoji(species) {
+    if (species === "Human") return `🧍🏻‍♂️ ${species}`;
+    else return species;
+  }
+
+  return (
+    <div>
+      <Container maxWidth="md" className={classes.container}>
+        <Grid container className={classes.gridContainer}>
+          <Grid item className={classes.gridItem}>
+            <Card className={classes.cardLeft}>
+              <CardMedia
+                className={classes.cardMedia}
+                component="img"
+                image={image}
+                alt={name}
+              />
+            </Card>
+          </Grid>
+          <Grid item className={classes.gridItem}>
+            <Typography variant="h4" className={classes.name}>
+              {name}
+            </Typography>
+            <div
+              style={{
+                flexDirection: "row",
+                display: "flex",
+                marginBottom: "-10px",
+              }}
+            >
+              <p
+                className={classes.statusIcon}
+                style={{
+                  backgroundColor: getStatusColor(status),
+                }}
+              ></p>
+              <Typography className={classes.status}>
+                {status} - {setHumanEmoji(species)}
+              </Typography>
+            </div>
+            <Typography className={classes.heading}>
+              Last known Location:
+            </Typography>
+            <Typography className={classes.subHeading}>
               {location.name}
-            </li>
-          </ul>
-          <ul className="collection">
-            <li className="collection-item">
-              <strong>Date Created: </strong>
+            </Typography>
+            <Typography className={classes.heading}>First seen in:</Typography>
+            <Typography className={classes.subHeading}>
+              {origin.name}
+            </Typography>
+            <Typography className={classes.heading}>Date Created:</Typography>
+            <Typography className={classes.subHeading}>
               {getDate(created)}
-            </li>
-          </ul>
-        </div>
-      </div>
+            </Typography>
+          </Grid>
+        </Grid>
+      </Container>
     </div>
   );
 }

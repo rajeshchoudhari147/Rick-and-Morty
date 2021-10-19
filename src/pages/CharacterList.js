@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { API_HUMAN } from "../api/rickandmortyapi";
 import Character from "../components/Character";
 import Loading from "../components/Loading";
+import { Typography, TextField } from "@material-ui/core";
 
 function CharacterList() {
   let [characters, setCharacters] = useState(null);
@@ -29,16 +30,17 @@ function CharacterList() {
 
   return (
     <div className="container">
-      <h2>Rick and Morty Characters</h2>
-      <hr />
-      <input
-        type="text"
-        placeholder="Search by character name..."
+      <Typography variant="h2">Rick and Morty Characters</Typography>
+      <TextField
+        label="Search by character name"
+        variant="outlined"
+        fullWidth
+        margin="dense"
+        color="primary"
         onChange={(event) => {
           setSearchTerm(event.target.value);
         }}
       />
-      <hr />
       <div className="row">
         {characters
           .filter((value) => {
