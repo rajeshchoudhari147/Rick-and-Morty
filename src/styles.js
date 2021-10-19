@@ -85,6 +85,10 @@ const useStyles = makeStyles((theme) => ({
   paginationBtn: {
     fontWeight: "bold",
   },
+  backButton: {
+    display: "flex",
+    justifyContent: "center",
+  },
 }));
 
 export default useStyles;
