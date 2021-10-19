@@ -33,6 +33,7 @@ nav > ul > li > a {
 
 .charDetails > div > ul > li {
   padding: 1.2rem !important;
+  align-items: "center";
 }
 
 .location {
